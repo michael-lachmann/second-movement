@@ -380,9 +380,6 @@ static const uint8_t Classic_LCD_Character_Set[] =
     0b00000001, // ~
 };
 
-const uint8_t LCD_Character_Set_first = 0x20 ;
-const uint8_t LCD_Character_Set_last = 0x20 + sizeof(Classic_LCD_Character_Set) - 1 ;
-
 
 static const digit_mapping_t Classic_LCD_Display_Mapping[] = {
     // Positions 0 and 1 are the Weekday or Mode digits

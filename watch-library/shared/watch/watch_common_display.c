@@ -42,6 +42,9 @@ uint8_t IndicatorSegments[8] = {
     SLCD_SEGID(4, 0)   // WATCH_INDICATOR_COLON (does not exist, will set in SDATAL4 which is harmless)
 };
 
+const uint8_t LCD_Character_Set_first = 0x20 ;
+const uint8_t LCD_Character_Set_last = 0x20 + sizeof(Classic_LCD_Character_Set) - 1 ;
+
 void watch_display_character(uint8_t character, uint8_t position) {
     if (watch_get_lcd_type() == WATCH_LCD_TYPE_CUSTOM) {
         if (character == 'R' && position > 1 && position < 8) character = 'r'; // We can't display uppercase R in these positions
