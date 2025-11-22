@@ -43,8 +43,6 @@ uint8_t IndicatorSegments[8] = {
 };
 
 void watch_display_character(uint8_t character, uint8_t position) {
-    if((character-0x20 < 0) | (character-0x20 >= sizeof(Classic_LCD_Character_Set)) return ;
-
     if (watch_get_lcd_type() == WATCH_LCD_TYPE_CUSTOM) {
         if (character == 'R' && position > 1 && position < 8) character = 'r'; // We can't display uppercase R in these positions
         else if (character == 'T' && position > 1 && position < 8) character = 't'; // lowercase t is the only option for these positions
@@ -91,6 +89,8 @@ void watch_display_character(uint8_t character, uint8_t position) {
     digit_mapping_t segmap;
     uint8_t segdata;
 
+    if((character-0x20 < LCD_Character_Set_first) | (character-0x20 > LCD_Character_Set_last)) return ;
+
     /// TODO: This could be optimized by doing this check once and setting a pointer in watch_discover_lcd_type.
 
     if (watch_get_lcd_type() == WATCH_LCD_TYPE_CUSTOM) {
@@ -129,7 +129,8 @@ void watch_display_character_lp_seconds(uint8_t character, uint8_t position) {
     // Will only work for digits and for positions  8 and 9 - but less code & checks to reduce power consumption
     digit_mapping_t segmap;
     uint8_t segdata;
-    if(character < 20) return ;
+
+    if((character-0x20 < LCD_Character_Set_first) | (character-0x20 > LCD_Character_Set_last)) return ;
 
     /// TODO: See optimization note above.
 
