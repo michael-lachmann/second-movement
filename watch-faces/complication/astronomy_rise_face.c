@@ -1121,7 +1121,7 @@ static void _astronomy_rise_render_overview(const astronomy_rise_state_t *state,
 /*
  * Render sun-angle detail mode.
  * Seconds label is "SA". HH:MM fields encode a trend marker plus a clamped
- * 0-180 degree integer using fixed-width formatting for stable LCD alignment.
+ * 0-99 degree integer, with a trailing degree-symbol separator before "SA".
  */
 static void _astronomy_rise_render_sun_angle(const astronomy_rise_state_t *state, const char *name_long, const char *name_short) {
     watch_clear_colon();
@@ -1130,11 +1130,11 @@ static void _astronomy_rise_render_sun_angle(const astronomy_rise_state_t *state
     char value[5];
     int whole = (int)roundf(state->sun_angle_deg);
     if (whole < 0) whole = 0;
-    if (whole > 180) whole = 180;
+    if (whole > 99) whole = 99;
     char trend = ' ';
     if (state->sun_angle_trend > 0) trend = '^';
     else if (state->sun_angle_trend < 0) trend = 'u';
-    snprintf(value, sizeof value, "%c%3d", trend, whole);
+    snprintf(value, sizeof value, "%c%2d#", trend, whole);
     char hours[3] = { value[0], value[1], '\0' };
     char minutes[3] = { value[2], value[3], '\0' };
     watch_display_text(WATCH_POSITION_HOURS, hours);
@@ -1144,7 +1144,7 @@ static void _astronomy_rise_render_sun_angle(const astronomy_rise_state_t *state
 /*
  * Render illuminated-face detail mode.
  * Seconds label is "FA". HH:MM fields encode trend marker plus clamped
- * 0-100 percent value so waxing/waning direction and magnitude fit compactly.
+ * 0-100 percent value, with a trailing "/" separator before "FA".
  */
 static void _astronomy_rise_render_face_lit(const astronomy_rise_state_t *state, const char *name_long, const char *name_short) {
     watch_clear_colon();
@@ -1157,7 +1157,7 @@ static void _astronomy_rise_render_face_lit(const astronomy_rise_state_t *state,
     char trend = ' ';
     if (state->face_lit_trend > 0) trend = '^';
     else if (state->face_lit_trend < 0) trend = 'u';
-    snprintf(value, sizeof value, "%c%3d", trend, pct);
+    snprintf(value, sizeof value, "%c%2d/", trend, pct);
     char hours[3] = { value[0], value[1], '\0' };
     char minutes[3] = { value[2], value[3], '\0' };
     watch_display_text(WATCH_POSITION_HOURS, hours);
